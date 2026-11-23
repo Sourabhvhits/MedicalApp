@@ -1,43 +1,43 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useEffect } from 'react';
+import { StatusBar, StyleSheet, Platform } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistedStore } from './src/services/redux/store';
+import { LocationProvider } from './src/context/LocationContext';
+import Navigation from './src/navigation';
+import { Loader } from './src/components/componentsIndex';
+import color from './src/theme/color';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
+const App: React.FC = () => {
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      (StatusBar as any).setBackgroundColor?.(color.surface, true);
+    }
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
+    <GestureHandlerRootView style={styles.root}>
+      <SafeAreaProvider>
+        <StatusBar barStyle="dark-content" />
+        <Provider store={store}>
+          <PersistGate
+            loading={<Loader fullScreen message="Loading Medical App..." />}
+            persistor={persistedStore}
+          >
+            <LocationProvider>
+              <Navigation />
+            </LocationProvider>
+          </PersistGate>
+        </Provider>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
   },
 });

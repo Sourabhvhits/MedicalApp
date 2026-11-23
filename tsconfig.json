@@ -1,5 +1,31 @@
 {
   "extends": "@react-native/typescript-config",
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["**/node_modules", "**/Pods"]
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "paths": {
+      "@context/*": ["./src/context/*"],
+      "@imageIndex": ["./src/assets/imageIndex.ts"],
+      "@svgIndex": ["./src/assets/svgIndex.ts"],
+      "@components": ["./src/components/componentsIndex.ts"],
+      "@commonComponents/*": ["./src/components/common/*"],
+      "@card": ["./src/components/cardIndex.ts"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@navigation/*": ["./src/navigation/*"],
+      "@screens/*": ["./src/screens/*"],
+      "@redux/*": ["./src/services/redux/*"],
+      "@api/*": ["./src/services/api/*"],
+      "@config/*": ["./src/services/config/*"],
+      "@theme": ["./src/theme/index.ts"],
+      "@utility/*": ["./src/utility/*"]
+    }
+  },
+  "include": ["src/**/*", "App.tsx", "index.js"],
+  "exclude": [
+    "node_modules",
+    "ios",
+    "android",
+    "Medical_backend",
+    "medical_frontend"
+  ]
 }
